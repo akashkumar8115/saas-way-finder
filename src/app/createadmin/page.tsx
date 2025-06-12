@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/Button";
 import LogoManager from "@/components/LogoManager";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import {
   ChevronDown,
   ChevronUp,

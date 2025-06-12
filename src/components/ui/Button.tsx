@@ -1,5 +1,4 @@
 "use client";
-// akash created this file
 import React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utlis";
@@ -9,8 +8,11 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
         primary:
           "bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:bg-blue-700 focus-visible:ring-[#573CFA]",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",  
         secondary:
           "bg-[#E5E7EB] text-black hover:bg-[#D9D9D9] focus-visible:ring-[#FB8D1A]",
         success:
@@ -21,6 +23,8 @@ const buttonVariants = cva(
           "bg-[#1C1A27] text-white hover:bg-[#2F2D3A] focus-visible:ring-[#1C1A27]",
         outline:
           "border border-[#573CFA] text-[#573CFA] bg-transparent hover:bg-[#f3f0ff] focus-visible:ring-[#573CFA]",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",  
       },
       size: {
         sm: "h-8 px-3 text-xs",

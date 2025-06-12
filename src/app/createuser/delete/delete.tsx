@@ -7,7 +7,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/Card";
 import { AlertTriangle } from "lucide-react";
 import toast from "react-hot-toast";
 // Define interfaces

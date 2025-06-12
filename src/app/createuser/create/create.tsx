@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Eye, EyeClosed, CheckCircle } from "lucide-react";
 import React, { useState } from "react";
 // import { toast } from "@/components/lib/toast";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import OtpVerification from "@/components/OtpVerification";
 import toast from "react-hot-toast";

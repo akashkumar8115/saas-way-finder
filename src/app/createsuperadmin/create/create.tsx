@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/Button";
 import { useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { EyeClosed, Eye, CheckCircle, AlertCircle } from "lucide-react";
 import { useState } from "react";
