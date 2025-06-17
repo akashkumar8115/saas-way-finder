@@ -1,7 +1,7 @@
 "use client";
 import { useState, useCallback, useEffect, useRef, JSX } from "react";
 import { useRouter } from "next/navigation";
-import { authService } from "@/app/api/(auth)/auth";
+// import { authService } from "@/app/api/(auth)/auth";
 import {
   validateEmail,
   validateName,
@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { getAuthHeader } from "../api/(auth)/user/route";
+// import { getAuthHeader } from "../api/(auth)/user/route";
 import { useAuth } from "@/context/AuthContext";
 
 // TypeScript interfaces
@@ -194,7 +194,7 @@ const Profile: React.FC = () => {
 
     try {
       setIsLoading(true);
-      await authService.updateProfile(userData);
+      // await authService.updateProfile(userData);
       toast.success("Profile updated successfully");
       setIsEditing(false);
     } catch (error) {

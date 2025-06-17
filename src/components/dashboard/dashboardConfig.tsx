@@ -33,6 +33,8 @@ import CreateSuperAdmin from "@/app/createsuperadmin/page";
 import Main from "@/app/main/page";
 
 import MapEditor from "@/app/map-editor/page";
+import BuildingsPage from "@/app/buildings/page";
+import build from "next/dist/build";
 // import BuildingManager from '@/app/components/BuildingManager';
 
 // Types
@@ -69,6 +71,11 @@ export const getNavItems = (userRole: UserRole): NavItem[] => {
       icon: <Map className="h-5 w-5" />,
       text: "Map Viewer",
       id: "main",
+    },
+    {
+      icon: <Map className="h-5 w-5" />,
+      text: "Buildings",
+      id: "buildings",
     },
     {
       icon: <Map className="h-5 w-5" />,
@@ -178,7 +185,8 @@ export const getDashboardComponents = (
     setting: <Setting />,
     help: <Help />,
     profile: <Profile />,
-    main: <Main />,
+    // main: <Main />,
+    buildings: <BuildingsPage />,
     "map-editor": <MapEditor />,
   };
 
@@ -200,7 +208,7 @@ export const getDashboardComponents = (
     case 3: // Maintainer (Regular User)
       return {
         dashboard: <DashboardContent />,
-        content: <Content />,
+        content: <BuildingsPage />,
         ...commonComponents,
       };
 
