@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { MapCanvas } from "@/components/MapCanvas";
 import { Toolbar } from "@/components/Toolbar";
 import { PathManager } from "@/components/PathManager";
@@ -35,9 +35,10 @@ import { useRouteHandlers } from "@/handlers/routeHandlers";
 import { handleConnectorDetection, handleConnectorInteraction } from "@/handlers/canvasHandlers";
 import { getPathsForDisplay } from "@/utils/pathUtils";
 import { MAP_CONTAINER_CONFIG } from "@/types/map-editor";
+import { getSavedMapsFromState } from "@/utils/mapUtils";
 
 const MapEditorPage = () => {
-  // Main state management
+  // Main state management with error handling
   const {
     state,
     updateState,
@@ -73,6 +74,24 @@ const MapEditorPage = () => {
     "id" | "name" | "type" | "sharedId" | "createdAt"
   > | null>(null);
   const [showVerticalConnectorDialog, setShowVerticalConnectorDialog] = useState(false);
+
+  // Safely get saved maps with error handling
+  const savedMaps = useMemo(() => {
+    try {
+      return getSavedMapsFromState(
+        buildings,
+        state.paths || [],
+        tags || [],
+        verticalConnectors || [],
+        state.mapImage,
+        state.mapName,
+        state.isPublished
+      );
+    } catch (error) {
+      console.error('Error getting saved maps:', error);
+      return [];
+    }
+  }, [buildings, state.paths, tags, verticalConnectors, state.mapImage, state.mapName, state.isPublished]);
 
   // Action handlers
   const mapEditorActions = useMapEditorActions(
@@ -408,50 +427,70 @@ const MapEditorPage = () => {
   };
 
   const getAvailableLocations = () => {
-    if (selectedBuilding) {
-      return [
-        ...new Set([
-          ...tags.map((tag) => tag.name),
-          ...state.paths.flatMap((path) => [path.source, path.destination]),
-        ]),
-      ];
-    } else {
-      const currentFloorTags = selectedFloor?.id
-        ? tags.filter((tag) => tag.floorId === selectedFloor.id || !tag.floorId)
-        : tags;
+    try {
+      if (selectedBuilding) {
+        return [
+          ...new Set([
+            ...tags.map((tag) => tag.name),
+            ...state.paths.flatMap((path) => [path.source, path.destination]),
+          ]),
+        ];
+      } else {
+        const currentFloorTags = selectedFloor?.id
+          ? tags.filter((tag) => tag.floorId === selectedFloor.id || !tag.floorId)
+          : tags;
 
-      const tagLocations = currentFloorTags.map((tag) => tag.name);
-      const pathLocations = state.paths.flatMap((path) => [
-        path.source,
-        path.destination,
-      ]);
-      return [...new Set([...tagLocations, ...pathLocations])];
+        const tagLocations = currentFloorTags.map((tag) => tag.name);
+        const pathLocations = state.paths.flatMap((path) => [
+          path.source,
+          path.destination,
+        ]);
+        return [...new Set([...tagLocations, ...pathLocations])];
+      }
+    } catch (error) {
+      console.error('Error getting available locations:', error);
+      return [];
     }
   };
 
   const getFilteredTags = () => {
-    return tags.filter(
-      (tag) =>
-        !selectedFloor?.id ||
-        tag.floorId === selectedFloor.id ||
-        !tag.floorId
-    );
+    try {
+      return tags.filter(
+        (tag) =>
+          !selectedFloor?.id ||
+          tag.floorId === selectedFloor.id ||
+          !tag.floorId
+      );
+    } catch (error) {
+      console.error('Error filtering tags:', error);
+      return [];
+    }
   };
 
   const getFilteredVerticalConnectors = () => {
-    return verticalConnectors.filter((c) => c.floorId === selectedFloor?.id);
+    try {
+      return verticalConnectors.filter((c) => c.floorId === selectedFloor?.id);
+    } catch (error) {
+      console.error('Error filtering vertical connectors:', error);
+      return [];
+    }
   };
 
   const getPathsForCanvas = () => {
-    return getPathsForDisplay(
-      state.paths,
-      selectedFloor,
-      state.isDesignMode,
-      state.isEditMode,
-      state.isPreviewMode,
-      state.selectedPathForAnimation,
-      state.animatedPath
-    );
+    try {
+      return getPathsForDisplay(
+        state.paths,
+        selectedFloor,
+        state.isDesignMode,
+        state.isEditMode,
+        state.isPreviewMode,
+        state.selectedPathForAnimation,
+        state.animatedPath
+      );
+    } catch (error) {
+      console.error('Error getting paths for canvas:', error);
+      return [];
+    }
   };
 
   return (
@@ -781,4 +820,5 @@ const MapEditorPage = () => {
 };
 
 export default MapEditorPage;
+
 
